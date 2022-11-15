@@ -1,5 +1,9 @@
 // A generic set of chatting responses. This set mimicks the classic Eliza bot.
 
++ how many civilians died in ukraine war
+- From the latest data we know that at least <call>civilians</call> civilians died in the war. So sad. 
+
+
 + [*] (sorry|apologize|apology) [*]
 - Please don't apologize.
 - Apologies are not necessary.
