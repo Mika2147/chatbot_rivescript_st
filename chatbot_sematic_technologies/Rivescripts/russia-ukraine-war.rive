@@ -1,0 +1,17 @@
+! version = 2.0
+
+> object soldiers python
+    import random
+    return random.random()
+< object
+
+> object civilians python
+    import random
+    return random.random()
+< object
+
++ how many civilians have died in the [(russian|ukrainian|russia ukraine)] war
+- <call>civilians</call> civilians have died in the war.
+
++ how many (russian|ukrainian) soldiers have died in the (russian|ukrainian|russia ukraine) war
+- <call>soldiers <star></call> <star> soldiers have died in the war.
