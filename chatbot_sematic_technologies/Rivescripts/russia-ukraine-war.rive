@@ -1,8 +1,11 @@
 ! version = 2.0
 
 > object soldiers python
-    import random
-    return random.random()
+    import requests
+    from bs4 import BeautifulSoup
+    page = requests.get("https://en.wikipedia.org/wiki/Casualties_of_the_Russo-Ukrainian_War")
+    soup = BeautifulSoup(page.content, "html.parser")
+    return 0
 < object
 
 > object civilians python

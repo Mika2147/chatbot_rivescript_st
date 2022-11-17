@@ -6,7 +6,7 @@ bot.sort_replies()
 
 run = True
 
-while run is True:
+while run is True:    
     print("User:")
     user_input = input()
 
