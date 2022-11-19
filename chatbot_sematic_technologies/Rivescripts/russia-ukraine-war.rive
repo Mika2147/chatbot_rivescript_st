@@ -1,20 +1,43 @@
 ! version = 2.0
 
 > object soldiers python
-    import requests
-    from bs4 import BeautifulSoup
-    page = requests.get("https://en.wikipedia.org/wiki/Casualties_of_the_Russo-Ukrainian_War")
-    soup = BeautifulSoup(page.content, "html.parser")
-    return 0
+    #import requests
+    #from bs4 import BeautifulSoup
+    #page = requests.get("https://en.wikipedia.org/wiki/Casualties_of_the_Russo-Ukrainian_War")
+    #soup = BeautifulSoup(page.content, "html.parser")
+    #return 0
+
+    # args[0] is 'russian' or 'ukrainian' and represents the requested data
+    # args[1] is 'russia' or 'ukraine' and represents the bias
+    input = args
+    return input
 < object
 
 > object civilians python
-    import random
-    return random.random()
+    # args[0] is 'russia' or 'ukraine' and represents the bias
+    input = args
+    return input
 < object
 
-+ how many civilians have died in the [(russian|ukrainian|russia ukraine)] war
-- <call>civilians</call> civilians have died in the war.
++ i think (ukraine|russia) is superior
+- <set bias=<star>> I also think so.
 
-+ how many (russian|ukrainian) soldiers have died in the (russian|ukrainian|russia ukraine) war
-- <call>soldiers <star></call> <star> soldiers have died in the war.
++ (donetsk|luhansk) belongs to russia
+- <set bias=russia> Slav'sya!
+
++ slava ukraini
+- <set bias=ukraine> Glory to Ukraine!
+
++ how many civilians have died in the [(russian|ukrainian|russia ukraine)] conflict
+* <get bias> != undefined => <call>civilians <get bias></call>
+- Are you pro russia oder pro ukraine?
+
++ (russia|ukraine)
+% are you pro russia oder pro ukraine
+* <star> != undefined => <set bias=<star>> <call>civilians <get bias></call> have died in the conflict.
+
++ how many (russian|ukrainian) soldiers have died in the special military operation
+* <star> != undefined => <set bias=russia> <call>soldiers <star> <get bias></call> <star> soldiers have died.
+
++ how many (russian|ukrainian) soldiers have died in the war
+* <star> != undefined => <set bias=ukraine> <call>soldiers <star> <get bias></call> <star> soldiers have died.
