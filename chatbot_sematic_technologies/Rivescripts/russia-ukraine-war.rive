@@ -8,13 +8,13 @@
     #return 0
 
     # args[0] is 'russian' or 'ukrainian' and represents the requested data
-    # args[1] is 'russia' or 'ukraine' and represents the bias
+    # args[1] is 'russia', 'ukraine' or 'neither' and represents the bias
     input = args
     return input
 < object
 
 > object civilians python
-    # args[0] is 'russia' or 'ukraine' and represents the bias
+    # args[0] is 'russia', 'ukraine' or 'neither' and represents the bias
     input = args
     return input
 < object
@@ -32,7 +32,7 @@
 * <get bias> != undefined => <call>civilians <get bias></call>
 - Are you pro russia oder pro ukraine?
 
-+ (russia|ukraine)
++ (russia|ukraine|neither)
 % are you pro russia oder pro ukraine
 * <star> != undefined => <set bias=<star>> <call>civilians <get bias></call> have died in the conflict.
 
@@ -41,3 +41,6 @@
 
 + how many (russian|ukrainian) soldiers have died in the war
 * <star> != undefined => <set bias=ukraine> <call>soldiers <star> <get bias></call> <star> soldiers have died.
+
++ how many (russian|ukrainian) soldiers have died in the conflict
+* <star> != undefined => <set bias=neither> <call>soldiers <star> <get bias></call> <star> soldiers have died.
