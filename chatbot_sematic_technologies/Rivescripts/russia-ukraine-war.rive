@@ -1,22 +1,88 @@
 ! version = 2.0
 
 > object soldiers python
-    #import requests
-    #from bs4 import BeautifulSoup
-    #page = requests.get("https://en.wikipedia.org/wiki/Casualties_of_the_Russo-Ukrainian_War")
-    #soup = BeautifulSoup(page.content, "html.parser")
-    #return 0
 
     # args[0] is 'russian' or 'ukrainian' and represents the requested data
     # args[1] is 'russia', 'ukraine' or 'neither' and represents the bias
-    input = args
-    return input
+
+    import re
+    import requests
+    from bs4 import BeautifulSoup
+    import pandas as pd
+
+    
+        
+    if args[1] == "ukraine":
+        source = "ukrainian"
+    elif args[1] == "russia":
+        source = "russian"
+    else:
+        source = "us"
+
+    context = args[0]
+
+    page = requests.get("https://en.wikipedia.org/wiki/Casualties_of_the_Russo-Ukrainian_War")
+    soup = BeautifulSoup(page.content, "html.parser")
+    tables = soup.find_all('table',{'class':"wikitable"})
+
+    df=pd.read_html(str(tables[2]))
+    # convert list to dataframe
+    df=pd.DataFrame(df[0])
+    data = df.drop(["Time period"], axis=1)
+    data = df.rename(columns={"Breakdown": "type", "Casualities": "deaths"})
+
+    res = ("", "", "")
+    for row in data.itertuples():
+        if((context in str(row[1]).lower()) and (source in str(row[4]).lower())):
+            number = str(row[2])
+            number = re.search(r'\d+(?:,\d+)?', number).group()
+            if len(row[1]) > len(res[0]):
+                res = (row[1], number, row[4])
+    
+    #return args
+    #return str(args[0]) + " " + str(args[1]) + " " str(res)
+    return res[1]
 < object
 
 > object civilians python
     # args[0] is 'russia', 'ukraine' or 'neither' and represents the bias
-    input = args
-    return input
+    import re
+    import requests
+    from bs4 import BeautifulSoup
+    import pandas as pd
+
+    
+        
+    if args[0] == "ukraine":
+        source = "ukrainian"
+    elif args[0] == "russia":
+        source = "russian"
+    else:
+        source = "us"
+
+    context = "civilians"
+
+    page = requests.get("https://en.wikipedia.org/wiki/Casualties_of_the_Russo-Ukrainian_War")
+    soup = BeautifulSoup(page.content, "html.parser")
+    tables = soup.find_all('table',{'class':"wikitable"})
+
+    df=pd.read_html(str(tables[2]))
+    # convert list to dataframe
+    df=pd.DataFrame(df[0])
+    data = df.drop(["Time period"], axis=1)
+    data = df.rename(columns={"Breakdown": "type", "Casualities": "deaths"})
+
+    res = ("", "", "")
+    for row in data.itertuples():
+        if((context in str(row[1]).lower()) and (source in str(row[4]).lower())):
+            number = str(row[2])
+            number = re.search(r'\d+(?:,\d+)?', number).group()
+            if len(row[1]) > len(res[0]):
+                res = (row[1], number, row[4])
+    
+    #return args
+    #return str(args[0]) + " " + str(args[1]) + " " str(res)
+    return res[1]
 < object
 
 + i think (ukraine|russia) is superior

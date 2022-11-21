@@ -3,8 +3,8 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 
-source = "Ukrainian"
-context = "Civilians"
+source = "russian"
+context = "russian"
 
 page = requests.get("https://en.wikipedia.org/wiki/Casualties_of_the_Russo-Ukrainian_War")
 soup = BeautifulSoup(page.content, "html.parser")
@@ -18,9 +18,8 @@ data = df.rename(columns={"Breakdown": "type", "Casualities": "deaths"})
 
 res = ("", "", "")
 for row in data.itertuples():
-    if((context in str(row[1])) and (source in str(row[4]))):
+    if((context in str(row[1]).lower()) and (source in str(row[4]).lower())):
         number = str(row[2])
-        #number.replace(",", "")
         number = re.search(r'\d+(?:,\d+)?', number).group()
         if len(row[1]) > len(res[0]):
             res = (row[1], number, row[4])

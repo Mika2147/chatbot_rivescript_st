@@ -1,7 +1,7 @@
 from rivescript import RiveScript
 
 bot = RiveScript()
-bot.load_directory("./Rivescripts")
+bot.load_file("./Rivescripts/russia-ukraine-war.rive")
 bot.sort_replies()
 
 run = True
