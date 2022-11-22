@@ -50,8 +50,9 @@ quit
 
 ## Authors
 
-ex. [Mika Auer](https://github.com/Mika2147)
-ex. [Tim Hänlein](https://github.com/THaenlein)
+[Mika Auer](https://github.com/Mika2147)
+
+[Tim Hänlein](https://github.com/THaenlein)
 
 ## License
 
