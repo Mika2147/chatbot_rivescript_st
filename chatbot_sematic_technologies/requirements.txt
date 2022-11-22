@@ -1,0 +1,8 @@
+# pip3 install -U -r requirements.txt
+
+rivescript
+lxml
+beautifulsoup4
+pandas
+requests
+re
