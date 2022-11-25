@@ -45,44 +45,24 @@
 < object
 
 > object civilians python
-    # args[0] is 'russia', 'ukraine' or 'neither' and represents the bias
+    # args[0] is 'deaths' or 'injured'
     import re
     import requests
     from bs4 import BeautifulSoup
     import pandas as pd
 
-    
-        
-    if args[0] == "ukraine":
-        source = "ukrainian"
-    elif args[0] == "russia":
-        source = "russian"
-    else:
-        source = "us"
-
-    context = "civilians"
-
-    page = requests.get("https://en.wikipedia.org/wiki/Casualties_of_the_Russo-Ukrainian_War")
+    page = requests.get("https://www.statista.com/statistics/1293492/ukraine-war-casualties/")
     soup = BeautifulSoup(page.content, "html.parser")
-    tables = soup.find_all('table',{'class':"wikitable"})
+    tables = soup.find_all('table',{'class':"hidden"})
 
-    df=pd.read_html(str(tables[2]))
+    df=pd.read_html(str(tables[0]))
     # convert list to dataframe
     df=pd.DataFrame(df[0])
-    data = df.drop(["Time period"], axis=1)
-    data = df.rename(columns={"Breakdown": "type", "Casualities": "deaths"})
-
-    res = ("", "", "")
-    for row in data.itertuples():
-        if((context in str(row[1]).lower()) and (source in str(row[4]).lower())):
-            number = str(row[2])
-            number = re.search(r'\d+(?:,\d+)?', number).group()
-            if len(row[1]) > len(res[0]):
-                res = (row[1], number, row[4])
-    
-    #return args
-    #return str(args[0]) + " " + str(args[1]) + " " str(res)
-    return res[1]
+    data = df.rename(columns={"Characteristic": "type", "Total": "casulaties"})
+    if args[0] == "deaths":
+        return data["casulaties"][0]
+    else:
+        return data["casulaties"][1]
 < object
 
 + i think (ukraine|russia) is superior
@@ -95,12 +75,10 @@
 - <set bias=ukraine> Glory to Ukraine!
 
 + how many civilians have died in the [(russian|ukrainian|russia ukraine)] conflict
-* <get bias> != undefined => <call>civilians <get bias></call>
-- Are you pro russia oder pro ukraine?
+- <call>civilians deaths</call> civilians have died in the conflict.
 
-+ (russia|ukraine|neither)
-% are you pro russia oder pro ukraine
-* <star> != undefined => <set bias=<star>> <call>civilians <get bias></call> have died in the conflict.
++ how many civilians have been injured in the [(russian|ukrainian|russia ukraine)] conflict
+- <call>civilians injured</call> civilians were injured in the conflict.
 
 + how many (russian|ukrainian) soldiers have died in the special military operation
 * <star> != undefined => <set bias=russia> <call>soldiers <star> <get bias></call> <star> soldiers have died.
